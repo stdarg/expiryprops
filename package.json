@@ -1,0 +1,42 @@
+{
+  "name": "expireProps",
+  "version": "1.0.0",
+  "description": "An object, upon which, you can set properties that will be removed after a timeout expires",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha -s 250 -t 200 --reporter list tests.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/stdarg/expireProps.git"
+  },
+  "keywords": [
+    "object",
+    "properties",
+    "property",
+    "timeout",
+    "expire",
+    "expiring",
+    "expiration",
+    "expiry",
+    "remove",
+    "rm",
+    "delete",
+    "del",
+    "obj"
+  ],
+  "author": "Edmond Meinfelder",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/stdarg/expirProps/issues"
+  },
+  "homepage": "https://github.com/stdarg/expireProps",
+  "dependencies": {
+    "debug": "2.1.3",
+    "is2": "0.0.13",
+    "lodash": "3.5.0"
+  },
+  "devDependencies": {
+    "mocha": "2.2.1"
+  }
+}
