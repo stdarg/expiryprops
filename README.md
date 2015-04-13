@@ -64,3 +64,6 @@ Removes the key from the object and clears the timeout.
 ### resetTimer(key [, timeoutMs])
 Resets the timeout associated with the key to be timeoutMs, if provided. If no
 timeout is provided, the timeout is the default.
+
+## LICENSE
+Released under the [MIT License](http://opensource.org/licenses/MIT).
