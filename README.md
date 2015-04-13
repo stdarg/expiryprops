@@ -1,24 +1,24 @@
-# expireProps
+# expiryprops
 This module manages an object, allows you to set keys and optional values on
 that object and, after a timeout expires, removes that property from the object.
 
 ## Installation
 
-    $ npm install expireProps
+    $ npm install expiryprops
 
 ## Example
 
 ```javascript
 var assert = require('assert');
-var expireProps = require('expireProps');
-expireProps.defaultTimer(100);      // set timer to 100ms
-expireProps.addKey('test');
-assert.ok(expireProps.obj.hasOwnProperty('test'));
+var expiryprops = require('expiryprops');
+expiryprops.defaultTimer(100);      // set timer to 100ms
+expiryprops.addKey('test');
+assert.ok(expiryprops.obj.hasOwnProperty('test'));
 
 // ensure the property is removed after 100ms
 
 function checkPropRemoved() {
-    if (expireProps.obj.hasOwnProperty('test'))
+    if (expiryprops.obj.hasOwnProperty('test'))
         console.error('The property was not removed.');
     else
         console.log('The property was removed.');

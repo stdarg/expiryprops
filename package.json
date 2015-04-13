@@ -1,5 +1,5 @@
 {
-  "name": "expireProps",
+  "name": "expiryprops",
   "version": "1.0.0",
   "description": "An object, upon which, you can set properties that will be removed after a timeout expires",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/stdarg/expireProps.git"
+    "url": "https://github.com/stdarg/expiryprops.git"
   },
   "keywords": [
     "object",
@@ -28,9 +28,9 @@
   "author": "Edmond Meinfelder",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/stdarg/expirProps/issues"
+    "url": "https://github.com/stdarg/expiryprops/issues"
   },
-  "homepage": "https://github.com/stdarg/expireProps",
+  "homepage": "https://github.com/stdarg/expiryprops",
   "dependencies": {
     "debug": "2.1.3",
     "is2": "0.0.13",
