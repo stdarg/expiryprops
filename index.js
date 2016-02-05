@@ -22,6 +22,8 @@ var errStr = ' requires string for argument "key", received: ';
  * Returns the new, or current default timeout, if no new timeout is given.
  */
 function defaultTimer(timeInMs) {
+    debug('defaultTimer: '+timeInMs);
+    debug('defaultTimer: '+typeof timeInMs);
     if (is.positiveInt(timeInMs))
         defaultTimeoutMs = timeInMs;
     return defaultTimeoutMs;
@@ -48,8 +50,8 @@ function addKeyValue(key, val) {
     if (!is.nonEmptyStr(key))
         throw new Error(arguments.callee.name + errValStr + key);
     var args = Array.prototype.slice.call(arguments);
-    var args = _handleAddArgs(args);
-    GlobalObj[key] = val;
+    args = _handleAddArgs(args, val);
+    //debug('GlobalObj['+key+'] = ', GlobalObj[key]);
     debug('args',args);
 }
 
@@ -75,14 +77,14 @@ function resetTimer(key) {
         throw new Error('resetTimer' + errStr + key);
     if (!GlobalObj[key])
         throw new Error('resetTimer: no such key "'+key+' exists.');
-    if (!GlobalCallbcks[key])
+    if (!GlobalCallbacks[key])
         throw new Error('resetTimer: no callback for key "'+key+'" exists.');
-    timeoutMs = defaultTimoutMs;
+    var timeoutMs = defaultTimeoutMs;
     if (arguments.length > 1 && typeof arguments[1] === 'number')
         timeoutMs = Math.floor(arguments[1]);
-    if (GlobalTimer[key]) {
-        clearTimeout(GlobalTimer[key]);
-        GlobalTimer[key] = setTimeout(GlobalCallbacks[key], timeoutMs);
+    if (GlobalTimers[key]) {
+        clearTimeout(GlobalTimers[key]);
+        GlobalTimers[key] = setTimeout(GlobalCallbacks[key], timeoutMs);
     }
 }
 
@@ -109,7 +111,7 @@ expiryProp.resetTimer('key', timeOutMs);
 
 
 
-function _handleAddArgs(args) {
+function _handleAddArgs(args, value) {
     var argObj = {
         timeoutMs: defaultTimeoutMs,
         timeoutCb: function() {
@@ -118,21 +120,42 @@ function _handleAddArgs(args) {
         }
     };
 
-    debug('arguments', arguments);
+    //debug('arguments', arguments);
+    debug('arguments.length', arguments.length);
 
     if (args.length > 1) {
-        if (is.number(args[1]))
+        if (is.positiveInt(args[1])) {
+            debug('ooo');
+            debug(args[1]);
             argObj.timeoutMs = Math.floor(args[1]);
-        if (is.func(arguments[1]))
+            debug('Set argObj.timeoutMs '+argObj.timeoutMs);
+        }
+        if (is.func(args[1]))
             argObj.timeoutCb = args[1];
     }
     if (args.length > 2) {
-        if (is.func(args[2]))
+        if (is.func(args[2])) {
+            debug('Setting timeout cb!');
             argObj.timeoutCb = function() {
                 delete GlobalObj[args[0]];
                 delete GlobalTimers[args[0]];
                 args[2]();
-            }
+            };
+        }
+        if (is.positiveInt(args[2])) {
+            argObj.timeoutMs = Math.floor(args[2]);
+            debug('Set argObj.timeoutMs '+argObj.timeoutMs);
+        }
+    }
+    if (args.length > 3) {
+        if (is.func(args[3])) {
+            debug('Setting timeout cb!');
+            argObj.timeoutCb = function() {
+                delete GlobalObj[args[0]];
+                delete GlobalTimers[args[0]];
+                args[3]();
+            };
+        }
     }
 
     // remove the old timer, if it exists
@@ -140,9 +163,16 @@ function _handleAddArgs(args) {
         clearTimeout(GlobalTimers[args[0]]);
 
     // create property with value 'undefined'
-    GlobalObj[args[0]] = undefined;
+    if (typeof value === 'undefined') {
+        debug('Value was undefined');
+        GlobalObj[args[0]] = undefined;
+    } else {
+        debug('Value was DEFINED');
+        GlobalObj[args[0]] = value;
+    }
     // set timeout on GlobalTimers
     GlobalTimers[args[0]] = setTimeout(argObj.timeoutCb, argObj.timeoutMs);
+    debug('Set timeout in: '+argObj.timeoutMs);
     // save CB for resets
     GlobalCallbacks[args[0]] = argObj.timeoutCb;
     return argObj;
