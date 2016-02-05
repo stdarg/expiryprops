@@ -1,6 +1,6 @@
 {
   "name": "expiryprops",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An object, upon which, you can set properties that will be removed after a timeout expires",
   "main": "index.js",
   "scripts": {
