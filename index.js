@@ -1,6 +1,5 @@
 'use strict';
 var debug = require('debug')('expiry');
-
 var is = require('is2');
 
 // holds the keyes and optional values
